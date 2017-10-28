@@ -18,7 +18,60 @@ class App extends React.Component {
 
         const NumberButton = (props) => <a onClick={props.onNumericKeyClick}>{props.value}</a>
         const OperationButton = (props) => <button onClick={props.onOperationKeyClick}>{props.value}</button>
+        const CalcButton = (props) => <button onClick={props.onCalcButtonClick}>=</button>
+        const ResetButton = (props) => <button onClick={props.onResetButtonClick}>C</button>
+        const PercButton = (props) => <button onClick={props.onPercButtonClick}>%</button>
+        const SignButton = (props) => <button onClick={props.onSignButtonClick}>+/-</button>
         const Display = (props) => <div className="Display" id="display">{props.displayText}</div>
+
+        const handlePercButtonClick = (e) => {
+            this.setState({
+                displayText:  displayText/100 + ""
+            });
+        }
+
+        const handleSignButtonClick = (e) => {
+            this.setState({
+                displayText:  displayText * -1
+            });
+        }
+
+        const handleResetButtonClick = (e) => {
+            this.setState({
+                operation: "+",
+                total: 0,
+                displayText: "0",
+                lastKeyValue:""
+            });
+        }
+
+        const handleCalcButtonClick = (e) => {
+            let operation = this.state.operation;
+            let displayText = this.state.displayText;
+            let total = this.state.total;
+            switch (operation) {
+                case "/":
+                    displayText = total * 1 / displayText * 1;
+                    break;
+                case "+":
+                    displayText = total * 1 + displayText * 1;
+                    break;
+                case "X":
+                    displayText = total * 1 * displayText * 1;
+                    break;
+                case "-":
+                    displayText = total * 1 - displayText * 1;
+                    break;
+                default:
+                // do nothing
+            }
+            this.setState({
+                operation: "+",
+                total: 0,
+                displayText,
+                lastKeyValue:""
+            });
+        }
 
         const handleNumericKeyClick = (e) => {
             let keyValue = e.target.innerHTML;
@@ -44,60 +97,23 @@ class App extends React.Component {
             let operation = this.state.operation;
             let total = this.state.total;
             switch(keyValue) {
-                case "C":
-                    displayText = "0";
-                    total = 0;
-                    operation = null;
+                case "/":
+                    total = displayText/1;
                     break;
-                case "+/-":
-                    displayText = displayText*1*-1 + "";
+                case "+":
+                    total += displayText*1;
                     break;
-                case "%":
-                    displayText = displayText/100 + "";
+                case "X":
+                    total = displayText*1;
                     break;
-                case "=":
-                    switch (operation) {
-                        case "/":
-                            displayText = total*1 / displayText*1;
-                            break;
-                        case "+":
-                            displayText = total*1+displayText*1;
-                            break;
-                        case "X":
-                            displayText = total*1*displayText*1;
-                            break;
-                        case "-":
-                            displayText = total*1-displayText*1;
-                            break;
-                        default:
-                        // do nothing
-                    }
-                    total = 0;
-                    keyValue = '';
+                case "-":
+                    total = displayText*1 - total*1;
                     break;
                 default:
-                    if (keyValue !== null) {
-                        switch (keyValue) {
-                            case "/":
-                                total = displayText/1;
-                                break;
-                            case "+":
-                                total += displayText*1;
-                                break;
-                            case "X":
-                                total = displayText*1;
-                                break;
-                            case "-":
-                                total = displayText*1 - total*1;
-                                break;
-                            default:
-                            // do nothing
-                        }
-                    }
-                    displayText = total;
-                    operation = keyValue;
-                    break;
+                // do nothing
             }
+            displayText = total;
+            operation = keyValue;
             this.setState({
                 operation: operation,
                 total: total,
@@ -115,9 +131,9 @@ class App extends React.Component {
                     <td colSpan="4" align="right"><Display displayText={displayText}/></td>
                 </tr>
                 <tr>
-                    <td><OperationButton value="C" onOperationKeyClick={handleOperationKeyClick}/></td>
-                    <td><OperationButton value="+/-" onOperationKeyClick={handleOperationKeyClick}/></td>
-                    <td><OperationButton value="%" onOperationKeyClick={handleOperationKeyClick}/></td>
+                    <td><ResetButton value="C" onResetButtonClick={handleResetButtonClick}/></td>
+                    <td><SignButton value="+/-" onSignButtonClick={handleSignButtonClick}/></td>
+                    <td><PercButton value="%" onPercButtonClick={handlePercButtonClick}/></td>
                     <td><OperationButton value="/" onOperationKeyClick={handleOperationKeyClick}/></td>
                 </tr>
                 <tr>
@@ -142,7 +158,7 @@ class App extends React.Component {
                     <td><NumberButton value="0" onNumericKeyClick={handleNumericKeyClick}/></td>
                     <td>&nbsp;</td>
                     <td><NumberButton value="." onNumericKeyClick={handleNumericKeyClick}/></td>
-                    <td><OperationButton value="=" onOperationKeyClick={handleOperationKeyClick}/></td>
+                    <td><CalcButton value="=" onCalcButtonClick={handleCalcButtonClick}/></td>
                 </tr>
                 </tbody>
             </table>)
