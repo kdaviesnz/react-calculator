@@ -51,16 +51,16 @@ class App extends React.Component {
             let total = this.state.total;
             switch (operation) {
                 case "/":
-                    displayText = total * 1 / displayText * 1;
+                    displayText = total / displayText;
                     break;
                 case "+":
-                    displayText = total * 1 + displayText * 1;
+                    displayText = total + displayText;
                     break;
                 case "X":
-                    displayText = total * 1 * displayText * 1;
+                    displayText = total * displayText;
                     break;
                 case "-":
-                    displayText = total * 1 - displayText * 1;
+                    displayText = total - displayText;
                     break;
                 default:
                 // do nothing
@@ -101,13 +101,13 @@ class App extends React.Component {
                     total = displayText/1;
                     break;
                 case "+":
-                    total += displayText*1;
+                    total += displayText;
                     break;
                 case "X":
-                    total = displayText*1;
+                    total = displayText;
                     break;
                 case "-":
-                    total = displayText*1 - total*1;
+                    total = displayText - total;
                     break;
                 default:
                 // do nothing
@@ -137,21 +137,21 @@ class App extends React.Component {
                     <td><OperationButton value="/" onOperationKeyClick={handleOperationKeyClick}/></td>
                 </tr>
                 <tr>
-                    <td><NumberButton value="7" onNumericKeyClick={handleNumericKeyClick}/></td>
-                    <td><NumberButton value="8" onNumericKeyClick={handleNumericKeyClick}/></td>
-                    <td><NumberButton value="9" onNumericKeyClick={handleNumericKeyClick}/></td>
+                    {[7,8,9].map((n,i) =>
+                        <td><NumberButton value={n} onNumericKeyClick={handleNumericKeyClick}/></td>
+                    )}
                     <td><OperationButton value="X" onOperationKeyClick={handleOperationKeyClick}/></td>
                 </tr>
                 <tr>
-                    <td><NumberButton value="4" onNumericKeyClick={handleNumericKeyClick}/></td>
-                    <td><NumberButton value="5" onNumericKeyClick={handleNumericKeyClick}/></td>
-                    <td><NumberButton value="6" onNumericKeyClick={handleNumericKeyClick}/></td>
+                    {[4,5,6].map((n,i) =>
+                        <td><NumberButton value={n} onNumericKeyClick={handleNumericKeyClick}/></td>
+                    )}
                     <td><OperationButton value="-" onOperationKeyClick={handleOperationKeyClick}/></td>
                 </tr>
                 <tr>
-                    <td><NumberButton value="1" onNumericKeyClick={handleNumericKeyClick}/></td>
-                    <td><NumberButton value="2" onNumericKeyClick={handleNumericKeyClick}/></td>
-                    <td><NumberButton value="3" onNumericKeyClick={handleNumericKeyClick}/></td>
+                    {[1,2,3].map((n,i) =>
+                        <td><NumberButton value={n} onNumericKeyClick={handleNumericKeyClick}/></td>
+                    )}
                     <td><OperationButton value="+" onOperationKeyClick={handleOperationKeyClick}/></td>
                 </tr>
                 <tr>
