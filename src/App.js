@@ -3,8 +3,10 @@ import './App.css';
 import Display from './Display';
 import NumberButton from './NumberButton';
 import OperationButton from "./OperationButton";
+import PropTypes from 'prop-types';
 
 class App extends React.Component {
+
     constructor(props) {
         super(props);
         this.handleNumericKeyClick = this.handleNumericKeyClick.bind(this);
@@ -103,6 +105,7 @@ class App extends React.Component {
 
     render() {
         const displayText = this.state.displayText;
+        // Note the way the onclick event is handled.
         return (
             (<table className="App">
                 <tbody>
@@ -143,6 +146,19 @@ class App extends React.Component {
             </table>)
         );
     }
+}
+
+// Define property types
+App.propTypes = {
+    operation:  PropTypes.string,
+    total: PropTypes.number,
+    displayText: PropTypes.string,
+    lastKeyValue: (props, propName) =>
+        (typeof props[propName] !== 'string') ?
+            new Error("Last key must be a string") :
+            (props[propName].length > 1) ?
+                new Error("Key value must be one character.") :
+                null
 }
 
 export default App;
